@@ -14,6 +14,17 @@
 
 <body style="background-color:#000">
     <script>
+        window.requestIdleCallback = window.requestIdleCallback || function(cb, options) {
+            var timeout = (options && options.timeout) ? Math.min(options.timeout, 50) : 50;
+            return setTimeout(function() {
+                cb({ didTimeout: false, timeRemaining: function() { return 50; } });
+            }, timeout > 50 ? 50 : timeout);
+        };
+        window.cancelIdleCallback = window.cancelIdleCallback || function(id) {
+            clearTimeout(id);
+        };
+    </script>
+    <script>
         (function() {
             var log = [];
             function showError(msg) {
