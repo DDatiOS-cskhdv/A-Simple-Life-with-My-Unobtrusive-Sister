@@ -11,6 +11,13 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Read Bundle ID
+        id: bundle
+        run: |
+          BUNDLE_ID=$(grep -o 'id="[^"]*"' config.xml | head -1 | cut -d'"' -f2)
+          echo "BUNDLE_ID=$BUNDLE_ID" >> $GITHUB_ENV
+          echo "Bundle ID is $BUNDLE_ID"
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -39,11 +46,11 @@ jobs:
           cd platforms/ios
           mkdir Payload
           cp -r build/App.xcarchive/Products/Applications/*.app Payload/
-          zip -r YourApp.ipa Payload
-          mv YourApp.ipa ../../
+          zip -r "$BUNDLE_ID.ipa" Payload
+          mv "$BUNDLE_ID.ipa" ../../
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: Game.ipa
-          path: Game.ipa
+          name: ${{ env.BUNDLE_ID }}.ipa
+          path: ${{ env.BUNDLE_ID }}.ipa
