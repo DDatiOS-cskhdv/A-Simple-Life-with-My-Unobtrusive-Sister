@@ -192,6 +192,7 @@ function zipFile(zipName = "patch.zip") {
 
 // 最新版本检查
 Scene_Title.prototype.autoUpdataCheck = function () {
+  if (window.DISABLE_AUTO_UPDATE === true) return;
 
   const versionA = $dataSystem.gameVersion || 0.1;
   // 先把非法的 v2 全部重置为 0 
@@ -249,6 +250,11 @@ Scene_Title.prototype.autoUpdataCheck = function () {
 };
 
 Scene_Title.prototype.autoUpdataConfirm = async function (version) {
+  if (window.DISABLE_AUTO_UPDATE === true) { 
+    $gameVariables.setValue(2, 0);
+    $gameVariables.setValue(9, "");
+    return;
+  }
 
   // 防范玩家在已经点击选项后继续弹窗
   if (this._commandWindowInitialized) {
@@ -300,6 +306,7 @@ Scene_Title.prototype.autoUpdataConfirm = async function (version) {
 
 // 自动更新检测
 chahuiUtil.autoUpdataCheck = async function (extra={}) {
+  if (window.DISABLE_AUTO_UPDATE === true) return { ok:false };
 
   if (this && this instanceof Game_QJBulletMZ) {
     // SLG监听器才会触发的流程
@@ -370,6 +377,7 @@ chahuiUtil.autoUpdataCheck = async function (extra={}) {
 
 // 过时版本警告
 chahuiUtil.showOutdatedVersionWarning = function (version) {
+	if (window.DISABLE_AUTO_UPDATE === true) return;
 	if ($gameTemp._showOutdatedVersionWarning) return;
 	$gameTemp._showOutdatedVersionWarning = true;
   let textArray = window.systemFeatureText && window.systemFeatureText.outdatedVersionWarning;

@@ -21,36 +21,7 @@ const appScript = "https://script.google.com/macros/s/AKfycbxmtGHh6D8jrz5Ca6IBlA
    steam商店页面广告
  */
 QJ.MPMZ.tl.steamStorePageAdvertisement = async function(isIframe) {
-   
-   let appId = 3238940;
-   
-   if (isIframe) {
-	  let url = 'https://store.steampowered.com/widget/3238940/';
-	  if (Utils.isMobileDevice()) { 
-	    EmbedOverlay.show({ url:url, id:appId, x:360, y:5, w:1200, h:480, closeOutside:true,  });
-	  } else {
-		EmbedOverlay.show({ url:url, id:appId, x:560, y:5, w:720, h:240, closeOutside:true,  });  
-	  }
-	  return; 
-   }
-	
-   let url = `https://store.steampowered.com/app/${appId}/_/`;
-   let textArray = [ "Our Steam store page is finally live!", 
-                     "We’d be so happy if you could add us to your wishlist!   (*´∀`)~♥", 
-					 "⬇Click below to open the Steam page." 
-				];
-   if (!!window.systemFeatureText.steamWishlist)  {
-	   textArray = window.systemFeatureText.steamWishlist;
-   }
-   let text = textArray.join("\n");  
-   const ask = await confirm(text);
-   if (ask) {
-     if ( Utils.isMobileDevice() ) {
-          window.open(url, '_system');
-     } else {
-          require('nw.gui').Shell.openExternal(url);
-     }
-   }	
+   return '';
 };
 
 // 生成谏言符文

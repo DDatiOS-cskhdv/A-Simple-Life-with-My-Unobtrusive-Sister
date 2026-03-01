@@ -16,6 +16,9 @@
  */
 
 (() => {
+    if (typeof Utils !== 'undefined' && Utils.isMobileDevice && Utils.isMobileDevice() && Utils.isMobileSafari && Utils.isMobileSafari()) {
+        return;
+    }
     const DEFAULT_DELTA_TIME = 1.0 / 60.0;
     const MAX_FRAME_TIME = 0.25;
     const MAX_UPDATES_PER_FRAME = 10;

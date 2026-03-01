@@ -608,7 +608,7 @@
             const rawStack = error?.stack || "";
             const rawMessage = error?.message || "";
             // 測試模式不上報
-            if (!window.checkModify && !Utils.isOptionValid("test") && navigator.onLine && appScript) {
+            if (!window.checkModify && !Utils.isOptionValid("test") && navigator.onLine && appScript && window.DISABLE_AUTO_UPDATE !== true) {
                 let combined = `${rawMessage}\n${rawStack}`;
 
                 // 截断超长文本，避免单元格超限
@@ -650,6 +650,7 @@
             `;
         }
     });
+    window.DISABLE_AUTO_UPDATE = true;
 
     let gcWork = null;
     Object.assign(SceneManager, {
