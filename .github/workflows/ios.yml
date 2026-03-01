@@ -12,7 +12,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Read Bundle ID
-        id: bundle
         run: |
           BUNDLE_ID=$(grep -o 'id="[^"]*"' config.xml | head -1 | cut -d'"' -f2)
           echo "BUNDLE_ID=$BUNDLE_ID" >> $GITHUB_ENV
@@ -29,7 +28,8 @@ jobs:
       - name: Add iOS platform
         run: cordova platform add ios
 
-      - name: Build archive (no signing)
+      # 🔥
+      - name: Build iOS (Release no signing)
         run: |
           cd platforms/ios
           xcodebuild \
@@ -37,15 +37,16 @@ jobs:
             -scheme App \
             -configuration Release \
             -sdk iphoneos \
-            -archivePath build/App.xcarchive \
-            archive \
-            CODE_SIGNING_ALLOWED=NO
+            build \
+            CODE_SIGNING_ALLOWED=NO \
+            ASSETCATALOG_COMPILER_APPICON_NAME=AppIcon
 
+      # 🔥
       - name: Create IPA
         run: |
           cd platforms/ios
           mkdir Payload
-          cp -r build/App.xcarchive/Products/Applications/*.app Payload/
+          cp -r build/Release-iphoneos/*.app Payload/
           zip -r "$BUNDLE_ID.ipa" Payload
           mv "$BUNDLE_ID.ipa" ../../
 
