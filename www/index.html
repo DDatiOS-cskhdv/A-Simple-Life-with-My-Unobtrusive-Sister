@@ -37,11 +37,14 @@
                 isAbsolute: function() { return false; }
             };
             var _fakeChild = { exec: _noop, execSync: _noop, spawn: function() { return { stdout: { on: _noop }, stderr: { on: _noop }, on: _noop }; } };
-            var _fakeOs = { platform: function() { return 'ios'; }, tmpdir: function() { return '/tmp'; } };
+            var _fakeOs = { platform: function() { return 'ios'; }, tmpdir: function() { return '/tmp'; }, cpus: function() { return []; } };
             var _fakeHttp = { createServer: function() { return { listen: _noop, on: _noop, close: _noop }; } };
-            var _modMap = { fs: _fakeFs, path: _fakePath, 'child_process': _fakeChild, os: _fakeOs, http: _fakeHttp };
+            var _fakeWin = { isDevToolsOpen: function() { return false; }, showDevTools: _noop, maximize: _noop, minimize: _noop, close: _noop, on: _noop };
+            var _fakeNwGui = { Shell: { openExternal: _noop, openItem: _noop }, Window: { get: function() { return _fakeWin; } } };
+            var _modMap = { fs: _fakeFs, path: _fakePath, 'child_process': _fakeChild, os: _fakeOs, http: _fakeHttp, 'nw.gui': _fakeNwGui, '@nwjs/nwjs': _fakeNwGui };
             window.require = function(mod) { return _modMap[mod] || {}; };
             window.process = { platform: 'ios', cwd: function() { return '/'; }, execPath: '/', env: {}, mainModule: { filename: '/index.html' } };
+            window.nw = window.nw || { App: { argv: [], clearCache: _noop, quit: _noop, dataPath: '/', manifest: {} }, Window: { get: function() { return _fakeWin; } }, Shell: { openExternal: _noop, openItem: _noop } };
         }
     </script>
     <script>
