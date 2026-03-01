@@ -14,6 +14,37 @@
 
 <body style="background-color:#000">
     <script>
+        // Node.js polyfill: prevent TypeError when plugins call require('fs').existsSync() etc. on iOS
+        if (typeof require === 'undefined') {
+            var _noop = function() {};
+            var _fakeFs = {
+                existsSync: function() { return false; },
+                readFileSync: function() { return ''; },
+                writeFileSync: _noop, appendFileSync: _noop,
+                mkdirSync: _noop, unlinkSync: _noop, copyFileSync: _noop,
+                readdirSync: function() { return []; },
+                statSync: function() { return { isFile: function() { return false; }, isDirectory: function() { return false; }, size: 0 }; },
+                stat: function(p, cb) { cb && cb(new Error('ENOENT')); },
+                promises: { readFile: function() { return Promise.resolve(''); }, writeFile: function() { return Promise.resolve(); }, mkdir: function() { return Promise.resolve(); }, readdir: function() { return Promise.resolve([]); } }
+            };
+            var _fakePath = {
+                join: function() { return Array.prototype.slice.call(arguments).join('/').replace(/\/+/g, '/'); },
+                dirname: function(p) { return (p || '').replace(/[\/\\][^\/\\]*$/, '') || '.'; },
+                resolve: function() { return Array.prototype.slice.call(arguments).join('/'); },
+                normalize: function(p) { return p || ''; },
+                extname: function(p) { return ((p || '').match(/\.[^.]*$/) || [''])[0]; },
+                basename: function(p) { return (p || '').split(/[\/\\]/).pop(); },
+                isAbsolute: function() { return false; }
+            };
+            var _fakeChild = { exec: _noop, execSync: _noop, spawn: function() { return { stdout: { on: _noop }, stderr: { on: _noop }, on: _noop }; } };
+            var _fakeOs = { platform: function() { return 'ios'; }, tmpdir: function() { return '/tmp'; } };
+            var _fakeHttp = { createServer: function() { return { listen: _noop, on: _noop, close: _noop }; } };
+            var _modMap = { fs: _fakeFs, path: _fakePath, 'child_process': _fakeChild, os: _fakeOs, http: _fakeHttp };
+            window.require = function(mod) { return _modMap[mod] || {}; };
+            window.process = { platform: 'ios', cwd: function() { return '/'; }, execPath: '/', env: {}, mainModule: { filename: '/index.html' } };
+        }
+    </script>
+    <script>
         window.requestIdleCallback = window.requestIdleCallback || function(cb, options) {
             var timeout = (options && options.timeout) ? Math.min(options.timeout, 50) : 50;
             return setTimeout(function() {
