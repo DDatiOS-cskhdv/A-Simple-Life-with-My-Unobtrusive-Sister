@@ -1,0 +1,49 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Cordova
+        run: npm install -g cordova
+
+      - name: Add iOS platform
+        run: cordova platform add ios
+
+      - name: Build archive (no signing)
+        run: |
+          cd platforms/ios
+          xcodebuild \
+            -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath build/App.xcarchive \
+            archive \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Create IPA
+        run: |
+          cd platforms/ios
+          mkdir Payload
+          cp -r build/App.xcarchive/Products/Applications/*.app Payload/
+          zip -r YourApp.ipa Payload
+          mv YourApp.ipa ../../
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Game.ipa
+          path: Game.ipa
