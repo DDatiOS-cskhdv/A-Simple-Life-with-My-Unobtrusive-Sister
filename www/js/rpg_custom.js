@@ -575,11 +575,6 @@
                 ? false : originalPop !== SceneManager.pop;
         }
     });
-    try {
-        if (!Utils.isOptionValid("test")) {
-            setTimeout(() => { try { window.switchTestMode(); } catch (e) {} }, 0);
-        }
-    } catch (e) {}
 
     let getVersion = () => {
         let ver = "";
@@ -744,6 +739,9 @@
     Scene_Map.prototype.start = function () {
         __SceneMap_start__.call(this);
         try {
+            if (typeof TSR !== 'undefined' && TSR.Save) {
+                TSR.Save.autosave_enable = true;
+            }
             for (let pid = 1; pid <= 200; pid++) {
                 const pic = $gameScreen.picture(pid);
                 if (pic && typeof pic.name === 'function' && pic.name() === 'black') {
@@ -837,6 +835,33 @@
         // 原生調用 異步的 canReadGameFiles 檢查, 始終都是 true, 沒意義的檢查
         checkFileAccess() { }
     });
+
+    const __SceneTitle_start__ = Scene_Title.prototype.start;
+    Scene_Title.prototype.start = function () {
+        __SceneTitle_start__.call(this);
+        try {
+            if (typeof QJ !== 'undefined' && QJ.MPMZ && typeof QJ.MPMZ.ClearAll === 'function') {
+                QJ.MPMZ.ClearAll();
+            }
+            if (typeof dp_setZoom === 'function') dp_setZoom(1);
+            if (typeof ConfigManager !== 'undefined') {
+                ConfigManager.scaleResolution = false;
+            }
+            if ($gameScreen) {
+                for (let pid = 1; pid <= 200; pid++) {
+                    const pic = $gameScreen.picture(pid);
+                    if (pic) {
+                        if (pic.drill_PCE_stopEffect) pic.drill_PCE_stopEffect();
+                        $gameScreen.erasePicture(pid);
+                    }
+                }
+            }
+            if ($gameTemp) {
+                $gameTemp._eventReserved = false;
+                $gameTemp._waitForPerformanceEnd = false;
+            }
+        } catch (e) { }
+    };
 
     Object.assign(DataManager, {
         loadDataFile(name, src) {
