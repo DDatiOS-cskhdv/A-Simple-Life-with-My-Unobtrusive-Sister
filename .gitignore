@@ -1,0 +1,24 @@
+# Node/NW.js
+www/node_modules/
+
+# Build and cache
+dist/
+build/
+.cache/
+temp/
+tmp/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Saves/config generated at runtime
+save/
+*.rpgsave
+
+# Logs
+*.log
+
+# Misc
+.env
+.env.*

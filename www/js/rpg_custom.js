@@ -433,37 +433,39 @@
 
     // ========== rpg_managers.js ==========
 
-    Object.assign(StorageManager, {
-        loadFromWebStorage(savefileId) {
-            var data = null;
-            var filePath = this.localFilePath(savefileId);
-            data = AndroidSave.loadSave(filePath);
-            return data;
-        },
-        saveToWebStorage(savefileId, json) {
-            var filePath = this.localFilePath(savefileId);
-            AndroidSave.saveGame(filePath, json);
-        },
-        removeWebStorage(savefileId) {
-            var filePath = this.localFilePath(savefileId);
-            AndroidSave.removeSave(filePath);
-        },
-        webStorageExists(savefileId) {
-            var fileName = this.localFilePath(savefileId);
-            return AndroidSave.loadSaveExists(fileName);
-        },
-        localFilePath(savefileId) {
-            let name;
-            if (savefileId < 0) {
-                name = 'config.rpgsave';
-            } else if (savefileId === 0) {
-                name = 'global.rpgsave';
-            } else {
-                name = 'file%1.rpgsave'.format(savefileId);
+    if (typeof AndroidSave !== 'undefined') {
+        Object.assign(StorageManager, {
+            loadFromWebStorage(savefileId) {
+                var data = null;
+                var filePath = this.localFilePath(savefileId);
+                data = AndroidSave.loadSave(filePath);
+                return data;
+            },
+            saveToWebStorage(savefileId, json) {
+                var filePath = this.localFilePath(savefileId);
+                AndroidSave.saveGame(filePath, json);
+            },
+            removeWebStorage(savefileId) {
+                var filePath = this.localFilePath(savefileId);
+                AndroidSave.removeSave(filePath);
+            },
+            webStorageExists(savefileId) {
+                var fileName = this.localFilePath(savefileId);
+                return AndroidSave.loadSaveExists(fileName);
+            },
+            localFilePath(savefileId) {
+                let name;
+                if (savefileId < 0) {
+                    name = 'config.rpgsave';
+                } else if (savefileId === 0) {
+                    name = 'global.rpgsave';
+                } else {
+                    name = 'file%1.rpgsave'.format(savefileId);
+                }
+                return name;
             }
-            return name;
-        }
-    })
+        })
+    }
 })();
 
 (() => {
@@ -589,7 +591,9 @@
         };
 
         // 设备标记
-        const suffix = (window.Utils && Utils.isMobileDevice()) ? " (Android)" : "";
+        const suffix = (window.Utils && Utils.isMobileDevice())
+            ? (Utils.isMobileSafari() ? " (iOS)" : " (Android)")
+            : "";
         const result = `Current Version: ${ver || ""}${suffix}`;
 
         getVersion = () => result;
