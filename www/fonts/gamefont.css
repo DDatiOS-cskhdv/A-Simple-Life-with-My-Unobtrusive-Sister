@@ -1,0 +1,90 @@
+@font-face {
+    font-family: GameFont;
+    src: url("FOT-NewCinemaAStd-D.otf");
+}
+@font-face {
+    font-family: Noto Sans JP Black;
+    src: url("NotoSansJP-Black.ttf");
+}
+@font-face {
+    font-family: RiiTegakiFude;
+    src: url("RiiT_F.otf");
+}
+@font-face {
+    font-family: Haiyanzhishidongdong;
+    src: url("Haiyanzhishidongdong-Regular-2.ttf");
+}
+@font-face {
+    font-family: FOT-NewCinemaA Std D;
+    src: url("FOT-NewCinemaAStd-D.otf");
+}
+@font-face {
+    font-family: Natsuzemi Maru Gothic Black;
+    src: url("夏蝉丸ゴシック.ttf");
+}
+@font-face {
+    font-family: Dela Gothic One;
+    src: url("DelaGothicOne-Regular.ttf");
+}
+@font-face {
+    font-family: MPLUS2ExtraBold;
+    src: url("MPLUS2-ExtraBold.ttf");
+}
+@font-face {
+    font-family: HonobonoPopTTF;
+    src: url("HonobonoPopTTF-Regular.ttf");
+}
+@font-face {
+    font-family: Huninn;
+    src: url("Huninn-Regular.ttf");
+}
+@font-face {
+    font-family: Nagurigaki Crayon;
+    src: url("crayon_1-1.ttf");
+}
+@font-face {
+    font-family: 未来圆SC;
+    src: url("weilaiyuan_Regular.ttf");
+}
+@font-face {
+    font-family: Mali;
+    src: url("Mali-Regular.ttf");
+}
+@font-face {
+    font-family: NanumGothic;
+    src: url("NanumGothic-Bold.ttf");
+}
+@font-face {
+    font-family: UoqMunThenKhung;
+    src: url("UoqMunThenKhung-Regular.ttf");
+}
+@font-face {
+    font-family: Maple Mono NF CN ExtraBold;
+    src: url("MapleMono-NF-CN-ExtraBold.ttf");
+}
+@font-face {
+    font-family: KazukiReiwa;
+    src: url("KazukiReiwa - Regular.ttf");
+}
+@font-face {
+    font-family: Kaisei Decol;
+    src: url("KaiseiDecol-Regular.ttf");
+}
+@font-face {
+    font-family: Madou Futo Maru Gothic;
+    src: url("MADOUFMG.ttf");
+}
+@font-face {
+    font-family: Mochiy Pop One;
+    src: url("MochiyPopOne-Regular.ttf");
+}
+@font-face {
+    font-family: Buildings and under the railway tracks;
+    src: url("Buildingsandundertherailwaytracks.otf");
+}
+.IIV::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button {
+    opacity: 0;
+    pointer-events: none;
+    width: 5px;
+}

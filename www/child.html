@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Child Window</title>
+</head>
+<body>
+  <h1>这是子窗口</h1>
+<script>
+  console.log("子窗口脚本执行");
+  console.log("window.opener:", window.opener);
+  if (window.opener) {
+    console.log("找到 window.opener，尝试回调或 postMessage");
+    if (window.opener.myTestCallback) {
+      window.opener.myTestCallback("通过 window.opener.myTestCallback 调用的数据");
+    }
+    window.opener.postMessage({ info: "通过 postMessage 传递的数据" }, "*");
+  } else {
+    console.log("未找到 window.opener");
+  }
+</script>
+</body>
+</html>

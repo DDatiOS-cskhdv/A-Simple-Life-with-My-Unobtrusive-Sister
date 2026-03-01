@@ -1,0 +1,7 @@
+[
+null,
+{"id":1,"battlerName":"","characterIndex":0,"characterName":"$player","classId":1,"equips":[0,0],"faceIndex":0,"faceName":"protagonist","traits":[{"code":14,"dataId":40,"value":1},{"code":14,"dataId":41,"value":1}],"initialLevel":1,"maxLevel":99,"name":"お兄さん","nickname":"","note":"<AddEquipSlot:2, 4>\n<ZzyTWF TheWorld: false>  \n<Passive State: 3,4,57>","profile":""},
+{"id":2,"battlerName":"","characterIndex":0,"characterName":"$sister","classId":2,"equips":[0,154],"faceIndex":1,"faceName":"protagonist","traits":[{"code":13,"dataId":40,"value":2},{"code":14,"dataId":58,"value":1},{"code":43,"dataId":190,"value":1}],"initialLevel":1,"maxLevel":99,"name":"妹","nickname":"Mio","note":"<AddEquipSlot:2, 3>","profile":""},
+{"id":3,"battlerName":"","characterIndex":0,"characterName":"","classId":1,"equips":[0,0,0,0,0],"faceIndex":0,"faceName":"","traits":[],"initialLevel":1,"maxLevel":99,"name":"","nickname":"","note":"","profile":""},
+{"id":4,"battlerName":"","characterIndex":0,"characterName":"","classId":1,"equips":[0,0],"faceIndex":0,"faceName":"","traits":[],"initialLevel":1,"maxLevel":99,"name":"","nickname":"","note":"","profile":""}
+]
