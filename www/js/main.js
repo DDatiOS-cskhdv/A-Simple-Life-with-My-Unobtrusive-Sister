@@ -194,6 +194,9 @@
 
                     loadScript.seq([...pixiList, ...otherList, ...rpgCoreList])
                         .then(() => {
+                            // Force isNwjs()=false on iOS: prevents NW.js code paths in plugins
+                            // and makes StorageManager use localStorage instead of fake fs
+                            if (typeof Utils !== 'undefined') Utils.isNwjs = function() { return false; };
                             loadPlugins();
                             console.log('[OK] iOS scripts loaded via seq', endTime());
                         }).catch(err => {
