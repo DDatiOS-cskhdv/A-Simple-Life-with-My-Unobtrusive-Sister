@@ -582,8 +582,8 @@ QJ.MPMZ.tl.lowResModeWarning = function() {
       }
 
       if (isAudio(url) && DEFAULT_AUDIO) {
-        // 逻辑扩展名：始终 .ogg
-        const fallback = `audio/${DEFAULT_AUDIO}.ogg`;
+        const _audioExt = (typeof AudioManager !== 'undefined' && AudioManager.audioFileExt) ? AudioManager.audioFileExt() : '.ogg';
+        const fallback = `audio/${DEFAULT_AUDIO}${_audioExt}`;
 		url = decodeURIComponent(url);
 		let text = `Fail to load ${url}. \nIf possible, please report it in our Discord. \nYou can continue playing after closing this popup.`
 		if (ConfigManager.language == 0) {
