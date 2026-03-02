@@ -1587,7 +1587,6 @@ chahuiUtil.imoutoChibiButtonInitialization = function () {
 };
 
 chahuiUtil.quickInteractionIconInitialize = function() {
-   const isIOS = typeof Utils !== 'undefined' && Utils.isMobileSafari && Utils.isMobileSafari();
 
    if ($gameMap.getGroupBulletListQJ('imoutoUtil').length == 0) {
 	  QJ.MPMZ.tl._imoutoUtilCheckInitialization(true);
@@ -1598,32 +1597,6 @@ chahuiUtil.quickInteractionIconInitialize = function() {
 	// 移动端适配
    if ( Utils.isMobileDevice() ) {
 	   iconScale = 1.5;   
-   }
-	
-   if (isIOS) {
-     if ($gameMap.getGroupBulletListQJ('saveButton').length == 0) {
-      var saveButton = QJ.MPMZ.Shoot({
-      groupName:["saveButton","imoutoUtilIcon"],
-      img:"imoutoUtil/button_save",
-      initialRotation:['S',0],
-      position:[['S',148],['S',525]],
-      z:"A",
-      blendMode:0,
-      imgRotation:['S',0],
-      moveType: ['S',0],
-      opacity:'0|0~30/1~99999|1',
-      scale:iconScale,
-      collisionBox:['C',collisionBox],
-      anchor:[0.56,0.55],
-      existData:[ 
-        { t: ['S', '!this._activated', false], d: [1, 30, 1.5], a: ["S","SoundManager.playOk();$gameMap.steupCEQJ(48,1,{saveFunction:true})"] },
-        { t: ['S', '$gameMessage.isBusy()||$gameMap.isAnyEventStartingQJ()', true], d: [1, 30, 1.5], c: ['S', 'this.time>30'] },
-      ],
-      moveF:[ ],
-      timeline:['S',0,120,[180,5,60]],
-     });
-     }
-     return;
    }
 
    if ($gameMap.getGroupBulletListQJ('optionButton').length == 0) {

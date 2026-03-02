@@ -800,7 +800,7 @@
             } else {
                 Graphics.backupPrintError.call(Graphics, 'UnknownError', e);
             }
-            this.stop();
+            // Keep running to avoid forced return to Title on iOS
         },
         // 場景切換自動清理 GC
         changeScene() {
@@ -851,8 +851,17 @@
                 for (let pid = 1; pid <= 200; pid++) {
                     const pic = $gameScreen.picture(pid);
                     if (pic) {
-                        if (pic.drill_PCE_stopEffect) pic.drill_PCE_stopEffect();
-                        $gameScreen.erasePicture(pid);
+                        const nm = (typeof pic.name === 'function') ? pic.name() : '';
+                        const shouldErase =
+                            nm === 'black' ||
+                            nm.startsWith('exterior_') ||
+                            nm.indexOf('home_introduction') !== -1 ||
+                            nm.indexOf('map_name/') !== -1 ||
+                            pid === 91 || pid === 92;
+                        if (shouldErase) {
+                            if (pic.drill_PCE_stopEffect) pic.drill_PCE_stopEffect();
+                            $gameScreen.erasePicture(pid);
+                        }
                     }
                 }
             }
